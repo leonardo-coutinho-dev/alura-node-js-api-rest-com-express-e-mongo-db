@@ -1,4 +1,5 @@
 {
+  "type": "module",
   "name": "alura-node-js-api-rest-com-express-e-mongo-db",
   "version": "1.0.0",
   "description": "",
@@ -12,5 +13,8 @@
   "license": "ISC",
   "devDependencies": {
     "nodemon": "^2.0.20"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
   }
 }
