@@ -15,7 +15,7 @@ const books = [
   { id: 2, title: "For whom the bell tolls" },
 ];
 
-// get method
+// read method
 
 app.get("/", (req, res) => {
   res.status(200).send("Curso de Node.js - API Rest com Express e MongoDB");
@@ -25,12 +25,40 @@ app.get("/books", (req, res) => {
   res.status(200).json(books);
 });
 
-// post method
+app.get("/books/:id", (req, res) => {
+  let index = searchBooks(req.params.id);
+  res.json(books[index]);
+});
+
+// create method
 
 app.post("/books", (req, res) => {
   books.push(req.body);
   res.status(201).send("The book has been registered with success!");
 });
+
+// update method
+
+app.put("/books/:id", (req, res) => {
+  let index = searchBooks(req.params.id);
+  books[index].title = req.body.title;
+  res.json(books);
+});
+
+// delete method
+
+app.delete("/books/:id", (req, res) => {
+  let { id } = req.params;
+  let index = searchBooks(id);
+  books.splice(index, 1);
+  res.send(`The book has been removed with success!`);
+});
+
+// function to filter the books array based on id
+
+let searchBooks = (id) => {
+  return books.findIndex((book) => book.id == id);
+};
 
 // export the server
 
