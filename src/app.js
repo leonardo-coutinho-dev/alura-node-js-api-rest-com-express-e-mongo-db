@@ -1,5 +1,31 @@
 import express from "express";
 
+import db from "./config/dbConnect.js";
+
+import books from "./models/Book.js";
+
+import routes from "./routes/index.js";
+
+/**
+ * GET: search information
+ * POST: create information
+ * PUT: Update information (completely)
+ * PATCH: Update information (partially)
+ * DELETE: Delete information
+ */
+
+// connection from database
+
+// 1. error message in case of unsuccessful connection
+
+db.on("error", console.log.bind(console, "Erro de conexão:"));
+
+// 2. atempt of connection (once)
+
+db.once("open", () => {
+  console.log("Conexão com o banco feita com sucesso!")
+});
+
 // creating the server
 
 const app = express();
@@ -8,22 +34,33 @@ const app = express();
 
 app.use(express.json());
 
+// rotas importadas do arquivo index
+
+routes(app);
+
 // array of books
 
-const books = [
-  { id: 1, title: "Farewell to arms" },
-  { id: 2, title: "For whom the bell tolls" },
-];
+// const books = [
+//   { id: 1, title: "Farewell to arms" },
+//   { id: 2, title: "For whom the bell tolls" },
+// ];
 
 // read method
 
-app.get("/", (req, res) => {
-  res.status(200).send("Curso de Node.js - API Rest com Express e MongoDB");
-});
+// app.get("/", (req, res) => {
+//   res.status(200).send("Curso de Node.js - API Rest com Express e MongoDB");
+// });
 
-app.get("/books", (req, res) => {
-  res.status(200).json(books);
-});
+// app.get("/books", async (req, res) => {
+//   // books.find((err, books) => {res.status(200).json(books)}) - model.find() no longer accepts callback functions
+//   try {
+//     const booksFind = await books.find({ });
+//     res.send(booksFind);
+//     console.log(booksFind);
+//   } catch (err) {
+//     console.log(err);
+//   }
+// });
 
 app.get("/books/:id", (req, res) => {
   let index = searchBooks(req.params.id);
